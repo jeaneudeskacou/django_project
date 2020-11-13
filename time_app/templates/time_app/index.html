@@ -3,9 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>index</title>
+    {% load static %}
 </head>
 <body>
-    
+    <h1>Page d'acceuil</h1>
+    <div id="app">
+        [[ locations ]]
+    </div>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.min.js"></script>
+<script>
+    var app = new Vue({
+        delimiters: ["[[", "]]"],
+        el: "#app",
+        data: {
+            locations: [],
+        },
+        methods:{
+            get_user_date: function(){
+                var url = "{% url 'get_user_data' %}"
+                axios.get(url)
+                    .then(response => {
+                        setTimeout(() => {
+                            var data = response.data;
+                            for(var location of data){
+                                this.locations.push(location);
+                            }
+                        }, 500)
+
+
+                    })
+            }
+        },
+        created: function(){
+            this.get_user_date();
+        }
+    })
+</script>
 </html>

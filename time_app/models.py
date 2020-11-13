@@ -10,7 +10,8 @@ class Localisation(models.Model):
         return self.continent+"/"+self.city
 
 class Profil(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    #user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     localisations = models.ManyToManyField(Localisation)
 
     def __str__(self):
