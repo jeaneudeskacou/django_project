@@ -23,19 +23,23 @@
         },
         methods:{
             get_user_date: function(){
-                var url = "{% url 'get_user_data' %}"
+                var url = "{% url 'get_user_data' %}";
+                var loc = 3;
                 axios.get(url)
                     .then(response => {
-                        setTimeout(() => {
                             var data = response.data;
                             for(var location of data){
                                 this.locations.push(location);
+                                var location_id = location.id;
+                                var _url = "{% url 'get_location_data' 0 %}".replace(0, location_id);
+                                axios.get(_url)
+                                    .then(response => {
+                                        console.log("DATA: ")
+                                        console.log(response.data);
+                                    })
                             }
-                        }, 500)
-
-
                     })
-            }
+            },
         },
         created: function(){
             this.get_user_date();
